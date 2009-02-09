@@ -1,9 +1,5 @@
 * Emergenta system, VT-09
-
-
 * Laboration 3: Genetiska algoritmer
- 
-
 ** Introduktion
 
 På 60-talet utvecklade John Holland genetiska algoritmer för att
@@ -92,3 +88,27 @@ Lycka till!
 Ansvarig för sidan: Jonny Pettersson
 Senast ändrad Monday, 09-Feb-2009 11:02:24 MET
 Copyright © 2009. All rights reserved.
+
+* Selektionsmetoder
+*** Fitness-Proporionate Selection
+    1. Sum the total expected value of individuals in the
+       population. Call this sum T.
+    2. Repeate N times:
+       - Choose a random integer r between 0 and T.
+       - Loop throug the individuals in the population, summing the
+         expected values, until the sum is greater than or equal to
+         r. The individual whose expected value puts the sum over this
+         limit is the one selected.
+         
+**** Baker (1987)
+     : ptr = Rand(); /* Random number uniformly distributed in [0, 1] */
+     : for (sum = i = 0; i < N; i++)
+     :     for (sum += ExpVal(i, t); sum > ptr; ptr++)
+     :         Select(i)
+*** Sigma Scaling  (Forrest 1985)
+    Simga Scaling, used to prevent premature convergence.
+*** Boltzmann Selection
+    
+*** Rank Selection
+*** Tournament Selection
+*** Steady-State Selection
