@@ -83,8 +83,22 @@ to create-next-generation
     ; This means, we randomly pick 3 solutions from the previous generation
     ; and select the best one of those 3 to reproduce.
 
-    let parent1 max-one-of (n-of 3 old-generation) [fitness]
-    let parent2 max-one-of (n-of 3 old-generation) [fitness]
+    let parent1 ""
+    let parent2 ""
+    
+    ifelse selection-method = "Tournament" [
+      set parent1 tournament-selection[old-generation]
+      set parent2 tournament-selection[old-generation]
+    ] ;;else
+    [ ifelse selection-method = "Roulette Wheel" [
+        set parent1 roulette-selection[old-generation]
+        set parent2 roulette-selection[old-generation]
+      ] ;;else
+      [ ;; another selection
+        ;let parent1 anotherselection
+        ;let parent2 anotherselection
+      ]
+    ]
     
     let child-bits crossover ([bits] of parent1) ([bits] of parent2)
 
@@ -97,8 +111,18 @@ to create-next-generation
   ; selected members of the previous generation
   repeat (population-size - crossover-count * 2)
   [
-    ask max-one-of (n-of 3 old-generation) [fitness]
-      [ hatch 1 ]
+    let survivor
+    ifelse selection-method = "Tournament" [
+      set survivor tournament-selection[old-generation]
+    ] ;;else
+    [ ifelse selection-method = "Roulette Wheel" [
+        set survivor roulette-selection[old-generation]
+      ] ;;else
+      [ ;; another selection
+        ;set survivor anotherselection
+      ]
+    ]
+  ask survivor [ hatch 1 ]
   ]
 
   ask old-generation [ die ]
@@ -111,6 +135,15 @@ to create-next-generation
     ; finally we update the fitness value for this solution
     calculate-fitness
   ]  
+end
+
+
+to-report tournament-selection [population]
+  report max-one-of (n-of 3 population) [fitness]
+end
+
+to-report roulette-selection [population]
+  report ""
 end
 
 ;; ===== Mutations
@@ -297,7 +330,7 @@ population-size
 population-size
 5
 200
-100
+200
 5
 1
 NIL
@@ -347,7 +380,7 @@ mutation-rate
 mutation-rate
 0
 10
-0.5
+0
 0.1
 1
 NIL
@@ -390,11 +423,21 @@ crossover-rate
 crossover-rate
 0
 100
-70
+100
 1
 1
 NIL
 HORIZONTAL
+
+CHOOSER
+19
+309
+192
+354
+selection-method
+selection-method
+"Tournament" "Roulette Wheel"
+1
 
 @#$#@#$#@
 WHAT IS IT?
