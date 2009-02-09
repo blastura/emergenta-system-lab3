@@ -1,0 +1,94 @@
+* Emergenta system, VT-09
+
+
+* Laboration 3: Genetiska algoritmer
+ 
+
+** Introduktion
+
+På 60-talet utvecklade John Holland genetiska algoritmer för att
+formellt studera fenomenet adaptation i naturen och för att utveckla
+metoder för hur mekanismerna i naturlig adaptation skulle kunna
+användas i datorsystem. Sedan dess har flera olika utökningar och
+variationer av Holland's grundmodell utvecklats och utvärderats. Nedan
+ges en enkel genetisk algoritm:
+
+   1. Starta med en slumpmässigt genererad population med n stycken l-bit kromosomer (strängar)
+   2. Beräkna fitness, f(x), för varje kromosom, x, i populationen
+   3. Upprepa följande steg tills n stycken avkommor skapats:
+          * Välj ett par föräldrakromosomer från nuvarande population där sannolikheten för val är en ökande funktion av fitness och valet görs med återläggning
+          * Med viss sannolikhet utför cross-over i en slumpmässigt vald punkt i kromosomen (cross-over i mer än en punkt är också möjligt)
+          * Med viss sannolikhet mutera de två avkommorna i varje punkt
+   4. Ersätt nuvarande population med den nya
+   5. Gå till steg 2
+
+Observera att ovanstående algoritm inte terminerar. För att få den att
+terminera kan man antingen bestämma hur många generationer som ska
+köras, alternativt avbryta algoritmen när en tillräckligt bra lösning
+hittats.
+
+Laborationen ska lösas i grupper om två personer.
+
+** Syfte
+
+Det övergripande syftet är att öka förståelsen för emergenta
+system. Laborationen har följande delsyften:
+
+    * Öka förståelsen för genetiska algoritmer
+    * Träna förmågan att dra slutsatser från emergenta system
+    * Stimulera till tankar kring emergenta egenskaper i system
+
+** Uppgift
+
+I NetLogos modellbibliotek finns en enkel implementation av en
+genetisk algoritm, Simple Genetic Algorithm (finns i katalogen
+Computer Science). Det i modellen implementerade problemet är väldigt
+enkelt och valt för att lägga fokus på lösningsteknikerna. I modellen
+används en variant av tournament selection där tre förslag på
+lösningar dras slumpmässigt från föräldrapopulationen och där den
+lösnig som har högst fitness av de tre väljs ut. Uppgiften i denna
+laboration består av fyra delar:
+
+    * Implementera ytterligare två olika valfira varianter av selektion (implementation enligt An Introduction to Genetic Algorithms, Melanie Mitchell)
+    * Jämför de tre varianterna av selektion med avseende på hur bra de bidrar till att så fort som möjligt hitta lösningen
+    * Presentera och argumentera för det ni kommer fram till
+    * Reflektera kring laborationen och genetiska algoritmer
+
+** Redovisning
+
+Laborationen ska redovisas med en rapport och genom deltagande i redovisningen av laborationen (se schemat för tidpunkt). Rapportens huvudsyfte är att redovisa era resultat och era reflektioner kring det som laborationen behandlar, dvs både era resultat och reflektioner är viktiga. Reflektionsdelen ska beröra följande frågor:
+
+    * Vilken selektionsmetod passar bäst för problemet i modellen och varför?
+    * För vilken typ av problem passar respektive selektionsmetod?
+    * Vilka applikationsområden kan du se för evolutionära algoritmer?
+    * För vilken typ av problem ser ni att evolutionära algoritmer kommer till mest nytta?
+
+Försöka också att sätta in laborationen i ett större sammanhang.
+
+Under redovisningen av laborationen kommer vi att eventuellt titta på någon lösning och därefter diskutera kring olika frågeställningar.
+
+** Innehåll i rapport
+
+I er rapport ska följande punkter tas med:
+
+    * Ett fullständigt försättsblad (med sökväg till er kod samt era användarnamn)
+    * En kort problembeskrivning (dvs så som ni uppfattat denna laboration)
+    * Kortfattade beskrivningar av era selektionsmetoder
+    * En användarhandledning
+    * En tydlig redovisning av era resultat och era argument/tester för att nå till era resultat
+    * Reflektion kring era resultat och eventuella begränsningar
+    * Reflektion kring de frågor som ställs ovan samt saker som du själv finner relevant
+    * Utskriven dokumenterad källkod
+
+** Datum
+
+Rapporten ska vara inlämnad senast onsdag 11 februari 16.00.
+
+Lycka till!
+
+
+** Copyright typ
+[Hem][Tillbaka] http://www.cs.umu.se/kurser/5DV017/VT09/lab/lab3.html
+Ansvarig för sidan: Jonny Pettersson
+Senast ändrad Monday, 09-Feb-2009 11:02:24 MET
+Copyright © 2009. All rights reserved.
