@@ -16,9 +16,9 @@ to setup
   create-turtles population-size [
     set bits n-values world-width [one-of [0 1]]
     calculate-fitness
-    calculate-expected-value
     hide-turtle  ;; the turtles' locations are not used, so hide them
   ]
+  ask turtles [ calculate-expected-value ]
   update-display
   do-plotting
 end
@@ -61,8 +61,8 @@ end
 
 
 to calculate-expected-value
-  let mean-fitness mean [fitness] of turtles
-  set expected-value fitness / mean-fitness
+  let mean-fitness (mean [fitness] of turtles)
+  set expected-value (fitness / mean-fitness)
 end
 
 ;; This procedure does the main work of the genetic algorithm.
@@ -162,6 +162,7 @@ to-report roulette-selection
   let T sum [expected-value] of old-generation
   ; random number [0,T)
   let spin random T
+  show word "spin: " spin
   let sum-expected 0
   let choosen ""
   ask old-generation [
@@ -373,7 +374,7 @@ population-size
 population-size
 5
 200
-100
+150
 5
 1
 NIL
