@@ -178,24 +178,85 @@ användargränssnittet:
 \end{itemize}
 
 \section{Algoritmbeskrivning}
+Nedan följer förklaring över de selektionsmetoder som är
+implementerade i denna laboration. Alla selektionsmetoder
+implementerades utifrån beskrivningar och givna i boken \textit{An
+  introduction to genetic algorithms}, \cite{gen-intro}.
 
+\subsection{Roulette Wheel}\label{sec:roulette-wheel}
+Selektionsalgoritmen \textit{Roulette Wheel} har fått sitt namn på
+grund av att metoden kan liknas vid att snurra ett Roulette–hjul där
+vissa individer har större sannolikhet att väljas baserat på dess
+\textit{fitness}.
+
+För algoritmen räknas ett värde, \textit{expected-value}, som ger en
+fingervisning om hur välanpassad en individ är gentemot de andra
+individerna i populationen. Detta värde räknas ut för varje individ
+genom att dela dess \textit{fitness}–värde med medelvärdet av hela
+populationens \textit{fitness}–värden.
+
+Följande metod följdes för att välja individer för sexuell
+reproduktion:
+
+\begin{enumerate}
+\item Summera totala antalet individer i populationen, kalla denna
+  summa \textit{T}.
+\item Upprepa följande steg antalet gånger som ett urval ska göras. I
+  denna laboration fall bestäms detta av parametern
+  \textit{crossover-rate}.
+  \begin{itemize}
+  \item Välj ett slumpmässig tal \textit{r} mellan 0 och
+    \textit{T}. Iterera över individerna i populationen, summera
+    värdet på \textit{expected-value} tills summan är större än eller
+    lika med \textit{r}. Välj ut individen vars värde går över denna gräns.
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Roulette Wheel with Sigma Scaling}
+Selektionsmetoden \textit{Roulette Wheel with Sigma Scaling} används
+exakt som \textit{Roulette Wheel}, se avsnitt
+\ref{sec:roulette-wheel}, förutom att individernas
+\textit{expected-value} räknas ut enligt följande formel, (direkt
+tagen ur \cite{gen-intro}):
+
+\begin{displaymath}
+  \textrm{ExpVal(i,t)} = \left\{ \begin{array}{ll}
+      1 + \frac{f(i) - \overline{f}(t)}{2\sigma(t)} & \textrm{om } \sigma(t) \neq 0 \\
+      1.0 & \textrm{om } \sigma(t) = 0
+    \end{array} \right.
+\end{displaymath}
+  
+Här avser $f(i)$ \textit{fittness} för individ $i$, $\overline{f}(t)$
+avser medelvärdet för populationens \textit{fitness}–värde vid tiden
+$t$ och $\sigma(t)$ är standardavvikelsen vid tiden $t$.
+
+% TODO: forsätt diskussion ey.
+
+  \subsection{Steady State}
+% TODO piece of cake
+  
 \section{Strategi för testning}
-Vi sparade filer och sånt.
+
+\section{Resultat}
+% Tabell och sånt
 
 \section{Reflektioner}\label{sec:reflektioner}
 
 Nedan avsnitt beskriver reflektioner som gjorts med avseende på
 frågorna från problemspecifikationen.
 
-% Vilken selektionsmetod passar bäst för problemet i modellen och
+% Anton: Vilken selektionsmetod passar bäst för problemet i modellen och
 % varför?
+
+% Andreas: För vilken typ av problem passar respektive selektionsmetod?
     
-% För vilken typ av problem passar respektive selektionsmetod?
+% Anton: Vilka applikationsområden kan du se för evolutionära algoritmer?
     
-% Vilka applikationsområden kan du se för evolutionära algoritmer?
-    
-% För vilken typ av problem ser ni att evolutionära algoritmer kommer
+% Andreas: För vilken typ av problem ser ni att evolutionära algoritmer kommer
 % till mest nytta?
+
+\bibliographystyle{alpha}
+\bibliography{books}
 
 \newpage
 \appendix
