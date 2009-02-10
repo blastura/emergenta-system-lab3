@@ -177,7 +177,7 @@ to-report roulette-selection
   let T sum [expected-value] of old-generation
   ; random number [0,T)
   let spin random T
-  ;show word "spin: " spin
+  ;how word "spin: " spin
   let sum-expected 0
   let choosen ""
   let found? false
@@ -190,7 +190,10 @@ to-report roulette-selection
       set found? true
     ]
   ]
-  ;show word "Reaaly tge one rpoert" choosen
+  if not found? [
+   show "Nothing chosen, pick random"
+   set choosen one-of old-generation
+  ]
   report choosen
 end
 
@@ -327,43 +330,84 @@ to write-to-file
   file-print ticks
 end
 
-
 ;; Method for scripted testing
 to test-script
+  show "script started"
   ;; Parameters
   set population-size 100
   set crossover-rate 70
-  set mutation-rate 0.5
+  set mutation-rate 2
+  set plot-diversity? false
   let index 0
+  let nr-runs 20
   
-  ;; Tests
+  ;; TOURNAMENT
   set selection-method "Tournament"
   let session-name (word selection-method "-" population-size "-" crossover-rate "-" mutation-rate)
   set-file word session-name ".dat"
-  
-  repeat 3 [
+  let tick-list []
+  repeat nr-runs [
     set index (index + 1)
     setup
     while [ [fitness] of winner != world-width] [ go ]
     write-to-file
+    set tick-list lput ticks tick-list
     save-snapshot (word session-name "-" index)
-    show word "saved snapshot and data for session: " session-name
+    ;show word "saved snapshot and data for session: " session-name
   ]
+  let ticks-mean (mean tick-list)
+  let ticks-stdev (standard-deviation tick-list)
+  file-print (word "# Mean: " ticks-mean)
+  file-print (word "# Standard deviation: " ticks-stdev)
+  show "Saved mean and standard deviation to file"  
   file-close
   set index 0
   
-;  repeat 3 [
-;    set index (index + 1)
-;    setup
-;    while [ [fitness] of winner != world-width] [ go ]
-;    write-to-file
-;    save-snapshot word session-name index
-;    show word "saved snapshot and data for session: " session-name
-;  ]
-;  file-close
-;  set index 0
+  ;; ROULETTE WHEEL WITH SIGMA SCALING
+  set selection-method "Roulette Wheel Sigma"
+  set session-name (word selection-method "-" population-size "-" crossover-rate "-" mutation-rate)
+  set-file word session-name ".dat"
+  set tick-list []
+  repeat nr-runs [
+    set index (index + 1)
+    setup
+    while [ [fitness] of winner != world-width] [ go ]
+    write-to-file
+    set tick-list lput ticks tick-list
+    save-snapshot (word session-name "-" index)
+    ;show word "saved snapshot and data for session: " session-name
+  ]
+  set ticks-mean (mean tick-list)
+  set ticks-stdev (standard-deviation tick-list)
+  file-print (word "# Mean: " ticks-mean)
+  file-print (word "# Standard deviation: " ticks-stdev)
+  show "Saved mean and standard deviation to file"  
+  file-close
+  set index 0
   
-  
+  ;; STEADY STATE
+  set selection-method "Steady State"
+  set session-name (word selection-method "-" population-size "-" crossover-rate "-" mutation-rate)
+  set-file word session-name ".dat"
+  set tick-list []
+  repeat nr-runs [
+    set index (index + 1)
+    setup
+    while [ [fitness] of winner != world-width] [ go ]
+    write-to-file
+    set tick-list lput ticks tick-list
+    save-snapshot (word session-name "-" index)
+    ;show word "saved snapshot and data for session: " session-name
+  ]
+  set ticks-mean (mean tick-list)
+  set ticks-stdev (standard-deviation tick-list)
+  file-print (word "# Mean: " ticks-mean)
+  file-print (word "# Standard deviation: " ticks-stdev)
+  show "Saved mean and standard deviation to file"  
+  file-close
+  set index 0
+ 
+ 
   show "script ended"
 end
 
@@ -517,7 +561,7 @@ mutation-rate
 mutation-rate
 0
 10
-0.5
+1
 0.1
 1
 NIL
@@ -547,7 +591,7 @@ SWITCH
 301
 plot-diversity?
 plot-diversity?
-0
+1
 1
 -1000
 
@@ -573,8 +617,8 @@ CHOOSER
 351
 selection-method
 selection-method
-"Tournament" "Roulette Wheel" "Roulette Wheel with Sigma Scaling" "Steady State"
-0
+"Tournament" "Roulette Wheel" "Roulette Wheel Sigma" "Steady State"
+3
 
 BUTTON
 61
