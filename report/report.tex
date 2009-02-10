@@ -162,8 +162,8 @@ Laborationsspecifikation finns i original på sidan:\\
 \verb!http://www.cs.umu.se/kurser/5DV017/VT09/lab/lab3.html!
 
 \section{Användarhandledning}
-Källkoden till implementationen som diskuteras i denna rapport finns
-att hitta på:
+Källkoden till implementationen lab3.nlogo som diskuteras i denna
+rapport finns att hitta på:
 
 \verb!~dit06ajn/edu/emergenta-system/lab3/src!
 
@@ -174,13 +174,22 @@ Nedan följer en förklaring av de knappar och reglage som förekommer i
 användargränssnittet:
 
 \begin{itemize}
+\item \textbf{population-size} - antalet individer i uppsättningen.
+\item \textbf{crossover-rate} - antal procent av populationen som ska användas för sexuell reproduktion.
+\item \textbf{mutation-rate} - antal procent av resterande(???) individer som kan muteras.
+\item \textbf{go} - denna knapp sätter igång förloppet. Metoden upprepas tills dess att målet är uppfyllt (enbart ettor, enbart vita sträck). Setup måste köras en gång innan denna knapp får användas.
+\item \textbf{setup} - initierar parametrar till simuleringen.
+\item \textbf{step} - anropar proceduren go endast en gång.
+\item \textbf{} - XXXXnågotmer?
+
+\begin{itemize}
 \item \textbf{Variabel} - förklaring.
 \end{itemize}
 
 \section{Algoritmbeskrivning}
 
-\section{Strategi för testning}
-Vi sparade filer och sånt.
+\section{Metod för testning}
+De implementerade selektionsmetoderna utvärderas genom att jämföra antalet omgångar, hädan efter kallade ticks, det tar för metoden att hitta en fullständig lösning. För att generera testdata gjordes ett test-script som kan aktiveras från användargränssnittet. Test-scriptet sätter programmets parametrar och itererar varje selektionsmetod ett förinställt antal gånger. Antalet ticks som krävs för att hitta en lösning sparas i en textfil. Efter att en sorts selektionsmetod har körts klart avslutas filen med medelvärdet och standardavvikelsen för den insamlade datan. Därefter startar en ny fil där data från nästa selektionsmetod sparas. När alla valda selektionsmetoder har kört klart avslutas skriptet. Sammanställning av resultaten kan ses under avsnitt (xxxx). 
 
 \section{Reflektioner}\label{sec:reflektioner}
 
@@ -189,13 +198,20 @@ frågorna från problemspecifikationen.
 
 % Vilken selektionsmetod passar bäst för problemet i modellen och
 % varför?
+Eftersom resultatet inte pekar på större skillnader i tidsåtgång är det svårt att resonera om skillnader mellan prestandan av selektionsmetoderna som löste uppgiften. Den redan implementerade Tournament-metoden står ändå ut med tanke på den enkla implementationen och kan därför ses som en segrare. Ett förslag till förbättring till denna metod vore att lägga till så kallad Elitism-procedur (XXX källa paper?) för att låta en del av de bästa individerna gå vidare direkt till nästa generation och alltså eliminera risken av att de blir undansparkade av slumpen.
     
 % För vilken typ av problem passar respektive selektionsmetod?
+Med avseende på tidsåtgång förlorar Roulette Wheel som sällan hittade rätt lösning men var snabb inledningsvis (XXXX sant?) på att höja den genomsnittliga fittnessen (XXXX fittnessen??). Problemet var att utvecklingen av populationen avstannade (premature konvergence) eftersom variansen blev för liten och de med bättre fitness tappade övertaget. Denna selektionsmetod lämpar sig alltså bara inledningsvis i evolutionen eller om ett perfekt resultat inte är nödvändigt.
+
+
     
 % Vilka applikationsområden kan du se för evolutionära algoritmer?
     
 % För vilken typ av problem ser ni att evolutionära algoritmer kommer
 % till mest nytta?
+I laboration 1 där termiter skulle flytta träbitar till en enda hög fanns en del parametrar att skruva på. Det fanns även flera önskvärda beteenden som skulle uppnås. Förutom att alla träbitar skulle ligga samlat ska de även forma en cirkulär samling. Dessutom konvergerar högen snabbare om två konkurrerande myrsorter bygger sina högar åtskiljt. Om en uppsättning parametrar uppfyller dessa krav kan lösningen anses fullständig, alltså en sträng med ettor. Denna parameterskruvning skulle kunna göras med hjälp av evolutionära algoritmer.
+
+Evolutionära algoritmer borde passa bra till just parameterskruvning eftersom rätt kombination av parametrarna ej behöver vara trivial och behöver testas fram och utvärderas.
 
 \newpage
 \appendix
