@@ -59,10 +59,20 @@ to calculate-fitness       ;; turtle procedure
   set fitness length (remove 0 bits)
 end
 
-
+;; Turtle procedure
 to calculate-expected-value
   let mean-fitness (mean [fitness] of turtles)
-  set expected-value (fitness / mean-fitness)
+  
+  ifelse selection-method = "Roulette Wheel with Sigma Scaling" [
+    let std (standard-deviation [fitness] of turtles)
+    ifelse (std = 0) [
+      set expected-value 1.0
+    ][
+      set expected-value (1 + (fitness - mean-fitness) / (2 * std))
+    ]
+  ][ ;; Roulette Wheel
+    set expected-value (fitness / mean-fitness)
+  ]
 end
 
 ;; This procedure does the main work of the genetic algorithm.
@@ -100,7 +110,8 @@ to create-next-generation
       set parent1 tournament-selection
       set parent2 tournament-selection
     ] ;;else
-    [ ifelse selection-method = "Roulette Wheel" [        
+    [ ifelse selection-method = "Roulette Wheel"
+          or selection-method = "Roulette Wheel with Sigma Scaling" [        
         set parent1 roulette-selection
         set parent2 roulette-selection
       ] ;;else
@@ -110,8 +121,8 @@ to create-next-generation
       ]
     ]
     
-    show [expected-value] of parent1
-    show [expected-value] of parent2    
+    ;show [expected-value] of parent1
+    ;show [expected-value] of parent2    
     
     let child-bits crossover ([bits] of parent1) ([bits] of parent2)
 
@@ -128,7 +139,8 @@ to create-next-generation
     ifelse selection-method = "Tournament" [
       set survivor tournament-selection
     ] ;;else
-    [ ifelse selection-method = "Roulette Wheel" [
+    [ ifelse selection-method = "Roulette Wheel"
+          or selection-method = "Roulette Wheel with Sigma Scaling" [
         set survivor roulette-selection
       ] ;;else
       [ ;; another selection
@@ -162,16 +174,20 @@ to-report roulette-selection
   let T sum [expected-value] of old-generation
   ; random number [0,T)
   let spin random T
-  show word "spin: " spin
+  ;show word "spin: " spin
   let sum-expected 0
   let choosen ""
+  let found? false
   ask old-generation [
     set sum-expected (sum-expected + expected-value)
-    if sum-expected >= spin [
+    ;show (word "sum-e: " sum-expected ", spin: " spin)
+    if sum-expected >= spin and not found? [
       set choosen self
-      stop
+      ;show word "choosen fitness: " fitness
+      set found? true
     ]
   ]
+  ;show word "Reaaly tge one rpoert" choosen
   report choosen
 end
 
@@ -301,9 +317,9 @@ end
 @#$#@#$#@
 GRAPHICS-WINDOW
 20
-12
+11
 530
-63
+62
 -1
 -1
 5.0
@@ -328,15 +344,15 @@ ticks
 CC-WINDOW
 5
 394
-541
+588
 489
 Command Center
 0
 
 BUTTON
+132
 108
-108
-193
+217
 141
 NIL
 go
@@ -352,7 +368,7 @@ NIL
 BUTTON
 20
 68
-193
+242
 101
 NIL
 setup
@@ -366,24 +382,24 @@ NIL
 NIL
 
 SLIDER
-20
+44
 148
-192
+216
 181
 population-size
 population-size
 5
 200
-150
+180
 5
 1
 NIL
 HORIZONTAL
 
 PLOT
-200
+247
 68
-530
+577
 218
 Fitness Plot
 gen #
@@ -400,9 +416,9 @@ PENS
 "worst" 1.0 0 -13345367 true
 
 BUTTON
-20
+44
 108
-105
+129
 141
 step
 go
@@ -416,24 +432,24 @@ NIL
 NIL
 
 SLIDER
-20
+44
 228
-192
+216
 261
 mutation-rate
 mutation-rate
 0
 10
-1.3
+0.5
 0.1
 1
 NIL
 HORIZONTAL
 
 PLOT
-200
+247
 223
-532
+579
 380
 Diversity Plot
 gen #
@@ -448,9 +464,9 @@ PENS
 "diversity" 1.0 0 -8630108 true
 
 SWITCH
-20
+44
 268
-192
+216
 301
 plot-diversity?
 plot-diversity?
@@ -459,28 +475,28 @@ plot-diversity?
 -1000
 
 SLIDER
-20
+44
 188
-192
+216
 221
 crossover-rate
 crossover-rate
 0
 100
-69
+70
 1
 1
 NIL
 HORIZONTAL
 
 CHOOSER
-19
-309
-192
-354
+20
+306
+235
+351
 selection-method
 selection-method
-"Tournament" "Roulette Wheel"
+"Tournament" "Roulette Wheel" "Roulette Wheel with Sigma Scaling"
 1
 
 @#$#@#$#@
