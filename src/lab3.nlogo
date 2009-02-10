@@ -115,9 +115,9 @@ to create-next-generation
         set parent1 roulette-selection
         set parent2 roulette-selection
       ] ;;else
-      [ ;; another selection
-        ;let parent1 anotherselection
-        ;let parent2 anotherselection
+      [ ;; Steady State selection
+        set parent1 steady-state-selection
+        set parent2 steady-state-selection
       ]
     ]
     
@@ -143,8 +143,8 @@ to create-next-generation
           or selection-method = "Roulette Wheel with Sigma Scaling" [
         set survivor roulette-selection
       ] ;;else
-      [ ;; another selection
-        ;set survivor anotherselection
+      [ ;; Steady State selection survivor
+        set survivor steady-state-survivor
       ]
     ]
   ask survivor [ hatch 1 ]
@@ -159,7 +159,10 @@ to create-next-generation
     mutate
     ; finally we update the fitness value for this solution
     calculate-fitness
-    calculate-expected-value
+    if selection-method = "Roulette Wheel"
+      or selection-method = "Roulette Wheel with Sigma Scaling" [
+        calculate-expected-value
+    ]
   ]  
 end
 
@@ -189,6 +192,16 @@ to-report roulette-selection
   ]
   ;show word "Reaaly tge one rpoert" choosen
   report choosen
+end
+
+to-report steady-state-selection
+  ;; TODO: hardcoded 3, replace with Å var ?
+  report one-of (max-n-of (count old-generation / 3) old-generation [fitness])
+end
+
+to-report steady-state-survivor
+  ;; TODO: hardcoded 2/3, replace with Å var ?
+  report one-of (max-n-of (count old-generation *  (2 / 3)) old-generation [fitness])
 end
 
 ;; reports a list of choosen agents (James Baker, 1987)
@@ -390,7 +403,7 @@ population-size
 population-size
 5
 200
-180
+100
 5
 1
 NIL
@@ -496,7 +509,7 @@ CHOOSER
 351
 selection-method
 selection-method
-"Tournament" "Roulette Wheel" "Roulette Wheel with Sigma Scaling"
+"Tournament" "Roulette Wheel" "Roulette Wheel with Sigma Scaling" "Steady State"
 1
 
 @#$#@#$#@
