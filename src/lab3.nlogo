@@ -302,6 +302,70 @@ to do-plotting
   ]
 end
 
+;; ======= Testing
+
+to save-snapshot [name]
+  let filename (word "data/" name ".png")
+  export-interface filename
+end
+
+to set-file [ filename ]
+  ;; We check to make sure we actually got a string.
+  if is-string? filename [
+    ;; If the file already exists, we begin by deleting it, otherwise
+    ;; new data would be appended to the old contents.
+    set filename word "data/" filename
+    if file-exists? filename
+      [ file-delete filename ]
+    file-open filename
+    file-print (word "# ticks")
+  ]
+end
+
+to write-to-file
+  ;;show (word ticks ", " fillness-ratio)
+  file-print ticks
+end
+
+
+;; Method for scripted testing
+to test-script
+  ;; Parameters
+  set population-size 100
+  set crossover-rate 70
+  set mutation-rate 0.5
+  let index 0
+  
+  ;; Tests
+  set selection-method "Tournament"
+  let session-name (word selection-method "-" population-size "-" crossover-rate "-" mutation-rate)
+  set-file word session-name ".dat"
+  
+  repeat 3 [
+    set index (index + 1)
+    setup
+    while [ [fitness] of winner != world-width] [ go ]
+    write-to-file
+    save-snapshot (word session-name "-" index)
+    show word "saved snapshot and data for session: " session-name
+  ]
+  file-close
+  set index 0
+  
+;  repeat 3 [
+;    set index (index + 1)
+;    setup
+;    while [ [fitness] of winner != world-width] [ go ]
+;    write-to-file
+;    save-snapshot word session-name index
+;    show word "saved snapshot and data for session: " session-name
+;  ]
+;  file-close
+;  set index 0
+  
+  
+  show "script ended"
+end
 
 ; *** NetLogo 4.0.4 Model Copyright Notice ***
 ;
@@ -356,9 +420,9 @@ ticks
 
 CC-WINDOW
 5
-394
+403
 588
-489
+498
 Command Center
 0
 
@@ -510,7 +574,23 @@ CHOOSER
 selection-method
 selection-method
 "Tournament" "Roulette Wheel" "Roulette Wheel with Sigma Scaling" "Steady State"
+0
+
+BUTTON
+61
+356
+182
+389
+Run test script
+test-script
+NIL
 1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
 
 @#$#@#$#@
 WHAT IS IT?
