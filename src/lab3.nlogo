@@ -3,10 +3,12 @@
 turtles-own [
   bits           ;; list of 0's and 1's
   fitness
+  expected-value
 ]
 
 globals [
   winner         ;; turtle that currently has the best solution
+  old-generation
 ]
 
 to setup
@@ -14,6 +16,7 @@ to setup
   create-turtles population-size [
     set bits n-values world-width [one-of [0 1]]
     calculate-fitness
+    calculate-expected-value
     hide-turtle  ;; the turtles' locations are not used, so hide them
   ]
   update-display
@@ -55,6 +58,12 @@ to calculate-fitness       ;; turtle procedure
   set fitness length (remove 0 bits)
 end
 
+
+to calculate-expected-value
+  let mean-fitness mean [fitness] of turtles
+  set expected-value fitness / mean-fitness
+end
+
 ;; This procedure does the main work of the genetic algorithm.
 ;; We start with the old generation of solutions. 
 ;; We choose solutions with good fitness to produce offspring 
@@ -71,7 +80,7 @@ to create-next-generation
   ; OLD-GENERATION would also grow.  Since we don't want it to grow,
   ; we instead write "TURTLES WITH [TRUE]", which makes OLD-GENERATION
   ; an agentset, which doesn't get updated when new solutions are created.
-  let old-generation turtles with [true]
+  set old-generation turtles with [true]
 
   ; Some number of the population is created by crossover each generation
   ; we divide by 2 because each time through the loop we create two children.
@@ -87,10 +96,10 @@ to create-next-generation
     let parent2 ""
     
     ifelse selection-method = "Tournament" [
-      set parent1 tournament-selection[old-generation]
-      set parent2 tournament-selection[old-generation]
+      set parent1 max-one-of (n-of 3 old-generation) [fitness]
+      set parent2 max-one-of (n-of 3 old-generation) [fitness]
     ] ;;else
-    [ ifelse selection-method = "Roulette Wheel" [
+    [ ifelse selection-method = "Roulette Wheel" [        
         set parent1 roulette-selection[old-generation]
         set parent2 roulette-selection[old-generation]
       ] ;;else
@@ -134,6 +143,7 @@ to create-next-generation
     mutate
     ; finally we update the fitness value for this solution
     calculate-fitness
+    calculate-expected-value
   ]  
 end
 
