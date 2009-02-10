@@ -26,6 +26,7 @@ end
 to go
   if [fitness] of winner = world-width
     [ stop ]
+  ;show mean [expected-value] of turtles
   create-next-generation
   update-display
   tick
@@ -96,18 +97,21 @@ to create-next-generation
     let parent2 ""
     
     ifelse selection-method = "Tournament" [
-      set parent1 max-one-of (n-of 3 old-generation) [fitness]
-      set parent2 max-one-of (n-of 3 old-generation) [fitness]
+      set parent1 tournament-selection
+      set parent2 tournament-selection
     ] ;;else
     [ ifelse selection-method = "Roulette Wheel" [        
-        set parent1 roulette-selection[old-generation]
-        set parent2 roulette-selection[old-generation]
+        set parent1 roulette-selection
+        set parent2 roulette-selection
       ] ;;else
       [ ;; another selection
         ;let parent1 anotherselection
         ;let parent2 anotherselection
       ]
     ]
+    
+    show [expected-value] of parent1
+    show [expected-value] of parent2    
     
     let child-bits crossover ([bits] of parent1) ([bits] of parent2)
 
@@ -120,12 +124,12 @@ to create-next-generation
   ; selected members of the previous generation
   repeat (population-size - crossover-count * 2)
   [
-    let survivor
+    let survivor ""
     ifelse selection-method = "Tournament" [
-      set survivor tournament-selection[old-generation]
+      set survivor tournament-selection
     ] ;;else
     [ ifelse selection-method = "Roulette Wheel" [
-        set survivor roulette-selection[old-generation]
+        set survivor roulette-selection
       ] ;;else
       [ ;; another selection
         ;set survivor anotherselection
@@ -148,12 +152,41 @@ to create-next-generation
 end
 
 
-to-report tournament-selection [population]
-  report max-one-of (n-of 3 population) [fitness]
+to-report tournament-selection
+  report max-one-of (n-of 3 old-generation) [fitness]
 end
 
-to-report roulette-selection [population]
-  report ""
+;; reports one agent
+to-report roulette-selection
+  ; sum of expected-value of the old generation
+  let T sum [expected-value] of old-generation
+  ; random number [0,T)
+  let spin random T
+  let sum-expected 0
+  let choosen ""
+  ask old-generation [
+    set sum-expected (sum-expected + expected-value)
+    if sum-expected >= spin [
+      set choosen self
+      stop
+    ]
+  ]
+  report choosen
+end
+
+;; reports a list of choosen agents (James Baker, 1987)
+to-report roulette-selection-baker
+  let parent-list ""
+  let ptr random-float 1
+  let sum-exp 0
+  ask old-generation [
+    set sum-exp (sum-exp + expected-value)
+    while [ptr < sum-exp] [
+      set parent-list lput self parent-list
+      set ptr ptr + 1
+    ]
+  ]
+  report parent-list
 end
 
 ;; ===== Mutations
@@ -340,7 +373,7 @@ population-size
 population-size
 5
 200
-200
+100
 5
 1
 NIL
@@ -390,7 +423,7 @@ mutation-rate
 mutation-rate
 0
 10
-0
+1.3
 0.1
 1
 NIL
@@ -433,7 +466,7 @@ crossover-rate
 crossover-rate
 0
 100
-100
+69
 1
 1
 NIL
