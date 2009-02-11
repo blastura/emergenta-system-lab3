@@ -182,9 +182,6 @@ användargränssnittet:
 \item \textbf{setup} - initierar parametrar till simuleringen.
 \item \textbf{step} - anropar proceduren go endast en gång.
 \item \textbf{} - XXXXnågotmer?
-
-\begin{itemize}
-\item \textbf{Variabel} - förklaring.
 \end{itemize}
 
 \section{Algoritmbeskrivning}
@@ -242,37 +239,170 @@ $t$ och $\sigma(t)$ är standardavvikelsen vid tiden $t$.
 
 % TODO: forsätt diskussion ey.
 
-  \subsection{Steady State}
+\subsection{Steady State}
 % TODO piece of cake
-  
-\section{Strategi för testning}
 
 \section{Metod för testning}
-De implementerade selektionsmetoderna utvärderas genom att jämföra antalet omgångar, hädan efter kallade ticks, det tar för metoden att hitta en fullständig lösning. För att generera testdata gjordes ett test-script som kan aktiveras från användargränssnittet. Test-scriptet sätter programmets parametrar och itererar varje selektionsmetod ett förinställt antal gånger. Antalet ticks som krävs för att hitta en lösning sparas i en textfil. Efter att en sorts selektionsmetod har körts klart avslutas filen med medelvärdet och standardavvikelsen för den insamlade datan. Därefter startar en ny fil där data från nästa selektionsmetod sparas. När alla valda selektionsmetoder har kört klart avslutas skriptet. Sammanställning av resultaten kan ses under avsnitt (xxxx). 
-\section{Resultat}
+De implementerade selektionsmetoderna utvärderas genom att jämföra
+antalet omgångar, hädan efter kallade ticks, det tar för metoden att
+hitta en fullständig lösning. För att generera testdata gjordes ett
+test-script som kan aktiveras från användargränssnittet. Test-scriptet
+sätter programmets parametrar och itererar varje selektionsmetod ett
+förinställt antal gånger. Antalet ticks som krävs för att hitta en
+lösning sparas i en textfil. Efter att en sorts selektionsmetod har
+körts klart avslutas filen med medelvärdet och standardavvikelsen för
+den insamlade datan. Därefter startar en ny fil där data från nästa
+selektionsmetod sparas. När alla valda selektionsmetoder har kört
+klart avslutas skriptet. Sammanställning av resultaten kan ses under
+avsnitt \ref{sec:resultat}.
+
+\section{Resultat}\label{sec:resultat}
 % Tabell och sånt
+Följande tabeller redovisar antalet generationer det behövdes i medel
+för att hitta optimal lösning på givet problem med olika
+parameterinställningar. För varje parameterinställning gjordes tio
+körningar och därefter räknades medelvärde och standardavvikelse ut.
+
+
+\begin{figure}[H]
+\begin{tabular}{lccc}
+% BEGIN RECEIVE ORGTBL mutation
+\hline
+100-70-0.5 & Roulette Wheel Sigma & Steady State & Tournament \\
+\hline
+Medelvärde & 42.2 & 41.4 & 44 \\
+Standardavvikelse & 2.8 & 3.5 & 5.7 \\
+\hline
+% END RECEIVE ORGTBL mutation
+\end{tabular}
+\caption{Population: 100, Crossover-rate: 70, Mutation: 0.5}\label{tab:mut05}
+\end{figure}
+\begin{comment}
+#+ORGTBL: SEND mutation orgtbl-to-latex :splice t :skip 0
+|-------------------+----------------------+--------------+------------|
+| 100-70-0.5        | Roulette Wheel Sigma | Steady State | Tournament |
+|-------------------+----------------------+--------------+------------|
+| Medelvärde        |                 42.2 |         41.4 |         44 |
+| Standardavvikelse |                  2.8 |          3.5 |        5.7 |
+|-------------------+----------------------+--------------+------------|
+\end{comment}
+
+\begin{figure}[H]
+\begin{tabular}{lccc}
+% BEGIN RECEIVE ORGTBL population
+\hline
+200-70-0.5 & Roulette Wheel Sigma & Steady State & Tournament \\
+\hline
+Medelvärde & 33.5 & 33.2 & 35.2 \\
+Standardavvikelse & 2.6 & 2.2 & 2.7 \\
+\hline
+% END RECEIVE ORGTBL population
+\end{tabular}
+\caption{Population: 200, Crossover-rate: 70, Mutation: 0.5}\label{tab:pop200}
+\end{figure}
+\begin{comment}
+#+ORGTBL: SEND population orgtbl-to-latex :splice t :skip 0
+|-------------------+----------------------+--------------+------------|
+| 200-70-0.5        | Roulette Wheel Sigma | Steady State | Tournament |
+|-------------------+----------------------+--------------+------------|
+| Medelvärde        |                 33.5 |         33.2 |       35.2 |
+| Standardavvikelse |                  2.6 |          2.2 |        2.7 |
+|-------------------+----------------------+--------------+------------|
+\end{comment}
+
+\begin{figure}[H]
+\begin{tabular}{lccc}
+% BEGIN RECEIVE ORGTBL mutationone
+\hline
+100-70-1 & Roulette Wheel Sigma & Steady State & Tournament \\
+\hline
+Medelvärde & 43 & 42.45 & 46.9 \\
+Standardavvikelse & 6.4 & 4.8 & 4.0 \\
+\hline
+% END RECEIVE ORGTBL mutationone
+\end{tabular}
+\caption{Population: 100, Crossover-rate: 70, Mutation: 1}\label{tab:mut1}
+\end{figure}
+\begin{comment}
+#+ORGTBL: SEND mutationone orgtbl-to-latex :splice t :skip 0
+|-------------------+----------------------+--------------+------------|
+| 100-70-1          | Roulette Wheel Sigma | Steady State | Tournament |
+|-------------------+----------------------+--------------+------------|
+| Medelvärde        |                   43 |        42.45 |       46.9 |
+| Standardavvikelse |                  6.4 |          4.8 |        4.0 |
+|-------------------+----------------------+--------------+------------|
+\end{comment}
+
+\begin{figure}[H]
+\begin{tabular}{lccc}
+% BEGIN RECEIVE ORGTBL mutationtwo
+\hline
+100-70-2 & Roulette Wheel Sigma & Steady State & Tournament \\
+\hline
+Medelvärde & 277.35 & 309.15 & 462.95 \\
+Standardavvikelse & 278.6 & 220.6 & 287.3 \\
+\hline
+% END RECEIVE ORGTBL mutationtwo
+\end{tabular}
+\caption{Population: 100, Crossover-rate: 70, Mutation: 2}\label{tab:mut2}
+\end{figure}
+\begin{comment}
+#+ORGTBL: SEND mutationtwo orgtbl-to-latex :splice t :skip 0
+|-------------------+----------------------+--------------+------------|
+| 100-70-2          | Roulette Wheel Sigma | Steady State | Tournament |
+|-------------------+----------------------+--------------+------------|
+| Medelvärde        |               277.35 |       309.15 |     462.95 |
+| Standardavvikelse |                278.6 |        220.6 |      287.3 |
+|-------------------+----------------------+--------------+------------|
+\end{comment}
 
 \section{Reflektioner}\label{sec:reflektioner}
 
 Nedan avsnitt beskriver reflektioner som gjorts med avseende på
 frågorna från problemspecifikationen.
 
-% Anton: Vilken selektionsmetod passar bäst för problemet i modellen och
+% Vilken selektionsmetod passar bäst för problemet i modellen och
 % varför?
-Eftersom resultatet inte pekar på större skillnader i tidsåtgång är det svårt att resonera om skillnader mellan prestandan av selektionsmetoderna som löste uppgiften. Den redan implementerade Tournament-metoden står ändå ut med tanke på den enkla implementationen och kan därför ses som en segrare. Ett förslag till förbättring till denna metod vore att lägga till så kallad Elitism-procedur (XXX källa paper?) för att låta en del av de bästa individerna gå vidare direkt till nästa generation och alltså eliminera risken av att de blir undansparkade av slumpen.
+Eftersom resultatet inte pekar på större skillnader i tidsåtgång är
+det svårt att resonera om skillnader mellan prestandan av
+selektionsmetoderna som löste uppgiften. Den redan implementerade
+Tournament-metoden står ändå ut med tanke på den enkla
+implementationen och kan därför ses som en segrare. Ett förslag till
+förbättring till denna metod vore att lägga till så kallad
+Elitism-procedur (XXX källa paper?) för att låta en del av de bästa
+individerna gå vidare direkt till nästa generation och alltså
+eliminera risken av att de blir undansparkade av slumpen.
     
 % För vilken typ av problem passar respektive selektionsmetod?
-Med avseende på tidsåtgång förlorar Roulette Wheel som sällan hittade rätt lösning men var snabb inledningsvis (XXXX sant?) på att höja den genomsnittliga fittnessen (XXXX fittnessen??). Problemet var att utvecklingen av populationen avstannade (premature konvergence) eftersom variansen blev för liten och de med bättre fitness tappade övertaget. Denna selektionsmetod lämpar sig alltså bara inledningsvis i evolutionen eller om ett perfekt resultat inte är nödvändigt.
+Med avseende på tidsåtgång förlorar Roulette Wheel som sällan hittade
+rätt lösning men var snabb inledningsvis (XXXX sant?) på att höja den
+genomsnittliga fittnessen (XXXX fittnessen??). Problemet var att
+utvecklingen av populationen avstannade (premature konvergence)
+eftersom variansen blev för liten och de med bättre fitness tappade
+övertaget. Denna selektionsmetod lämpar sig alltså bara inledningsvis
+i evolutionen eller om ett perfekt resultat inte är nödvändigt.
 
+% Vilka applikationsområden kan du se för evolutionära algoritmer?
+Applikationsområden för evolutionära algoritmer skulle kunna tänkas
+vara problem där lösningsrymden är så pass stor att det är svår att
+tänka sig fram till en lösning. %??? Vad är skillnad på denna fråga
+                                %och nedan?
 
-    
-% Anton: Vilka applikationsområden kan du se för evolutionära algoritmer?
-    
-% Andreas: För vilken typ av problem ser ni att evolutionära algoritmer kommer
+% För vilken typ av problem ser ni att evolutionära algoritmer kommer
 % till mest nytta?
-I laboration 1 där termiter skulle flytta träbitar till en enda hög fanns en del parametrar att skruva på. Det fanns även flera önskvärda beteenden som skulle uppnås. Förutom att alla träbitar skulle ligga samlat ska de även forma en cirkulär samling. Dessutom konvergerar högen snabbare om två konkurrerande myrsorter bygger sina högar åtskiljt. Om en uppsättning parametrar uppfyller dessa krav kan lösningen anses fullständig, alltså en sträng med ettor. Denna parameterskruvning skulle kunna göras med hjälp av evolutionära algoritmer.
+I laboration 1 där termiter skulle flytta träbitar till en enda hög
+fanns en del parametrar att skruva på. Det fanns även flera önskvärda
+beteenden som skulle uppnås. Förutom att alla träbitar skulle ligga
+samlat ska de även forma en cirkulär samling. Dessutom konvergerar
+högen snabbare om två konkurrerande myrsorter bygger sina högar
+åtskiljt. Om en uppsättning parametrar uppfyller dessa krav kan
+lösningen anses fullständig, alltså en sträng med ettor. Denna
+parameterskruvning skulle kunna göras med hjälp av evolutionära
+algoritmer.
 
-Evolutionära algoritmer borde passa bra till just parameterskruvning eftersom rätt kombination av parametrarna ej behöver vara trivial och behöver testas fram och utvärderas.
+Evolutionära algoritmer borde passa bra till just parameterskruvning
+eftersom rätt kombination av parametrarna ej behöver vara trivial och
+behöver testas fram och utvärderas.
 
 \bibliographystyle{alpha}
 \bibliography{books}
