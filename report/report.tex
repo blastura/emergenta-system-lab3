@@ -187,7 +187,7 @@ användargränssnittet:
 \section{Algoritmbeskrivning}
 Nedan följer förklaring över de selektionsmetoder som är
 implementerade i denna laboration. Alla selektionsmetoder
-implementerades utifrån beskrivningar och givna i boken \textit{An
+implementerades utifrån beskrivningar givna i boken \textit{An
   introduction to genetic algorithms}, \cite{gen-intro}.
 
 \subsection{Roulette Wheel}\label{sec:roulette-wheel}
@@ -235,12 +235,35 @@ tagen ur \cite{gen-intro}):
   
 Här avser $f(i)$ \textit{fittness} för individ $i$, $\overline{f}(t)$
 avser medelvärdet för populationens \textit{fitness}–värde vid tiden
-$t$ och $\sigma(t)$ är standardavvikelsen vid tiden $t$.
-
-% TODO: forsätt diskussion ey.
+$t$ och $\sigma(t)$ är standardavvikelsen vid tiden $t$. Anledning
+till denna ändring i \textit{expected-value} är att försöka variera
+vikten av individers \textit{fitness} så att en skillnaden på
+\textit{expected-value} ökar i slutet av en körning när det typsikt är
+mindre skillnad bland individernas \textit{fitness}. Detta ska
+förhindra för tidig konvergens.
+% TODO: forsätt i diskussion ey.
 
 \subsection{Steady State}
 % TODO piece of cake
+Selektionsmetoden \textit{Steady State} är implementerad så att enbart
+en tredjedel av de bästa individerna i varje generation har möjlighet
+till sexuell reproduktion. Två tredjedelar av individerna med bäst
+\textit{fitness} överlever utan förändring. En tredjedel av de sämst
+anpassade individerna dör ut.
+
+\begin{kod}[H]
+  \begin{scriptsize}
+\begin{verbatim}
+to-report steady-state-selection
+   report one-of (max-n-of (count old-generation / 3) old-generation [fitness])
+end
+
+to-report steady-state-survivor
+   report one-of (max-n-of (count old-generation *  (2 / 3)) old-generation [fitness])
+end
+\end{verbatim}
+  \end{scriptsize}
+\end{kod}
 
 \section{Metod för testning}
 De implementerade selektionsmetoderna utvärderas genom att jämföra
@@ -260,9 +283,9 @@ avsnitt \ref{sec:resultat}.
 % Tabell och sånt
 Följande tabeller redovisar antalet generationer det behövdes i medel
 för att hitta optimal lösning på givet problem med olika
-parameterinställningar. För varje parameterinställning gjordes tio
-körningar och därefter räknades medelvärde och standardavvikelse ut.
-
+parameterinställningar och olika selektionsmetoder. För varje
+parameterinställning gjordes tio körningar och därefter räknades
+medelvärde och standardavvikelse ut.
 
 \begin{figure}[H]
 \begin{tabular}{lccc}
@@ -369,7 +392,7 @@ selektionsmetoderna som löste uppgiften. Den redan implementerade
 Tournament-metoden står ändå ut med tanke på den enkla
 implementationen och kan därför ses som en segrare. Ett förslag till
 förbättring till denna metod vore att lägga till så kallad
-Elitism-procedur (XXX källa paper?) för att låta en del av de bästa
+Elitism-procedur (\cite{gen-intro}) för att låta en del av de bästa
 individerna gå vidare direkt till nästa generation och alltså
 eliminera risken av att de blir undansparkade av slumpen.
     
@@ -414,9 +437,69 @@ behöver testas fram och utvärderas.
 Härefter följer utskrifter från källkoden och andra filer som hör till
 denna laboration
 
-\subsection{Flocking.nlogo}\label{app:Flocking.nlogo}
+\subsection{Roulette-Wheel-Sigma-100-70-0.5.dat}\label{Roulette-Wheel-Sigma-100-70-0.5.dat}
 \begin{footnotesize}
-  \verbatiminput{../src/Flocking.nlogo}
+  \verbatiminput{../src/data/100-70-0.5/Roulette-Wheel-Sigma-100-70-0.5.dat}
 \end{footnotesize}
 
+\subsection{Steady-State-100-70-0.5.dat}\label{Steady-State-100-70-0.5.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/100-70-0.5/Steady-State-100-70-0.5.dat}
+\end{footnotesize}
+
+\subsection{Tournament-100-70-0.5.dat}\label{Tournament-100-70-0.5.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/100-70-0.5/Tournament-100-70-0.5.dat}
+\end{footnotesize}
+
+
+\subsection{Roulette-Wheel-Sigma-100-70-1.dat}\label{Roulette-Wheel-Sigma-100-70-1.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/100-70-1/Roulette-Wheel-Sigma-100-70-1.dat}
+\end{footnotesize}
+
+\subsection{Steady-State-100-70-1.dat}\label{Steady-State-100-70-1.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/100-70-1/Steady-State-100-70-1.dat}
+\end{footnotesize}
+
+\subsection{Tournament-100-70-1.dat}\label{Tournament-100-70-1.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/100-70-1/Tournament-100-70-1.dat}
+\end{footnotesize}
+
+\subsection{Roulette-Wheel-Sigma-100-70-2.dat}\label{Roulette-Wheel-Sigma-100-70-2.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/100-70-2/Roulette-Wheel-Sigma-100-70-2.dat}
+\end{footnotesize}
+
+\subsection{Steady-State-100-70-2.dat}\label{Steady-State-100-70-2.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/100-70-2/Steady-State-100-70-2.dat}
+\end{footnotesize}
+
+\subsection{Tournament-100-70-2.dat}\label{Tournament-100-70-2.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/100-70-2/Tournament-100-70-2.dat}
+\end{footnotesize}
+
+\subsection{Roulette-Wheel-Sigma-200-70-0.5.dat}\label{Roulette-Wheel-Sigma-200-70-0.5.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/200-70-0.5/Roulette-Wheel-Sigma-200-70-0.5.dat}
+\end{footnotesize}
+
+\subsection{Steady-State-200-70-0.5.dat}\label{Steady-State-200-70-0.5.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/200-70-0.5/Steady-State-200-70-0.5.dat}
+\end{footnotesize}
+
+\subsection{Tournament-200-70-0.5.dat}\label{Tournament-200-70-0.5.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/200-70-0.5/Tournament-200-70-0.5.dat}
+\end{footnotesize}
+
+\subsection{lab3.nlogo}\label{app:lab3.nlogo}
+\begin{footnotesize}
+  \verbatiminput{../src/lab3.nlogo}
+\end{footnotesize}
 \end{document}
