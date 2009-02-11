@@ -49,7 +49,7 @@
 \def\namnTva{Anton Johansson}
 \def\mailTva{dit06ajn@cs.umu.se}
 
-\def\pathtocode{$\sim$dit06ajn/edu/emergenta-system/lab2/src}
+\def\pathtocode{$\sim$dit06ajn/edu/emergenta-system/lab3/src}
 
 \def\handledareEtt{Jonny Pettersson, jonny@cs.umu.se}
 \def\handledareTva{Anders Broberg, bopspe@cs.umu.se}
@@ -181,8 +181,13 @@ användargränssnittet:
 \item \textbf{go} - denna knapp sätter igång förloppet. Metoden upprepas tills dess att målet är uppfyllt (enbart ettor, enbart vita sträck). Setup måste köras en gång innan denna knapp får användas.
 \item \textbf{setup} - initierar parametrar till simuleringen.
 \item \textbf{step} - anropar proceduren go endast en gång.
-\item \textbf{} - XXXXnågotmer?
+\item \textbf{selection-method} - anger vilken selektionsmetod som ska användas.
+\item \textbf{Run test script} - startar det hårdkodade testskriptet
+  och sparar data till mappen \textit{data}.
 \end{itemize}
+
+För information om funktioner från den omodifierade NetLogo–modellen
+se fliken \textit{Information} i NetLogo.
 
 \section{Algoritmbeskrivning}
 Nedan följer förklaring över de selektionsmetoder som är
@@ -209,7 +214,7 @@ reproduktion:
 \item Summera totala antalet individer i populationen, kalla denna
   summa \textit{T}.
 \item Upprepa följande steg antalet gånger som ett urval ska göras. I
-  denna laboration fall bestäms detta av parametern
+  denna laboration bestäms detta av parametern
   \textit{crossover-rate}.
   \begin{itemize}
   \item Välj ett slumpmässig tal \textit{r} mellan 0 och
@@ -283,7 +288,8 @@ och gjorde olika antal körningar för att se hur många som krävdes för
 att få fram ett stabilt medelvärde med en liten
 standardavvikelse. Resultatet av detta vara att det räckte med tio
 körningar eftersom värdena blev mycket nära de som ficks efter hundra
-körningar. Jämför bilaga \ref{Tournament-100-70-0.5.dat} med \ref{}.
+körningar. Jämför bilaga \ref{Tournament-100-70-0.5.dat} med
+\ref{Tournament100runsedited.dat}.
 
 \section{Resultat}\label{sec:resultat}
 % Tabell och sånt
@@ -416,7 +422,7 @@ selektionsmetoderna som löste uppgiften. Den redan implementerade
 Tournament-metoden står ändå ut med tanke på den enkla
 implementationen och kan därför ses som en segrare. Ett förslag till
 förbättring till denna metod vore att lägga till så kallad
-Elitism-procedur (\cite{gen-intro}) för att låta en del av de bästa
+Elitism-procedur \cite{gen-intro} för att låta en del av de bästa
 individerna gå vidare direkt till nästa generation och alltså
 eliminera risken av att de blir undansparkade av slumpen.
     
@@ -518,6 +524,11 @@ denna laboration
 \subsection{Tournament-200-70-0.5.dat}\label{Tournament-200-70-0.5.dat}
 \begin{footnotesize}
   \verbatiminput{../src/data/200-70-0.5/Tournament-200-70-0.5.dat}
+\end{footnotesize}
+
+\subsection{Tournament100runsedited.dat}\label{Tournament100runsedited.dat}
+\begin{footnotesize}
+  \verbatiminput{../src/data/Tournament100runsedited.dat}
 \end{footnotesize}
 
 \subsection{lab3.nlogo}\label{app:lab3.nlogo}
