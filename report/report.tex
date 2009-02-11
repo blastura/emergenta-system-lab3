@@ -115,8 +115,8 @@
 \section{Problemspecifikation}\label{sec:problemspecifikation}
 Laborationen gick ut på att göra ändringar i en befintlig
 NetLogo\footnote{http://ccl.northwestern.edu/netlogo/} modell,
-''Simple Genetic Algorithm'',som implementerar en enkel genetisk
-algoritm. I modellen avgörs vilka individer som får fotplanta sig till
+''Simple Genetic Algorithm'', som implementerar en enkel genetisk
+algoritm. I modellen avgörs vilka individer som får fortplanta sig till
 nästa generation med hjälp av en metod som kallas \textit{Tournament
   Selction}. Metoden fungerar genom att slumpmässigt dra tre individer
 ur en population, individen med högst \textit{fitness}–värde väljes ut
@@ -391,6 +391,9 @@ Standardavvikelse & 278.6 & 220.6 & 287.3 \\
 |-------------------+----------------------+--------------+------------|
 \end{comment}
 
+Komplett data finns i bilaga
+\ref{Roulette-Wheel-Sigma-100-70-0.5.dat}–\ref{Tournament-200-70-0.5.dat}.
+
 \section{Reflektioner}\label{sec:reflektioner}
 Nedan avsnitt beskriver reflektioner som gjorts med avseende på
 frågorna från problemspecifikationen.
@@ -432,7 +435,17 @@ rätt lösning. Problemet var att utvecklingen av populationen
 avstannade (premature konvergence) eftersom variansen blev för liten
 och de med bättre fitness tappade övertaget. Denna selektionsmetod
 lämpar sig alltså bara inledningsvis i evolutionen eller om ett
-perfekt resultat inte är nödvändigt.
+perfekt resultat inte är nödvändigt. Se diagrammet \textit{Fitness Plot} i
+figur \ref{fig:images/premature-convergence} på ett exempel för hur
+detta kan se ut.
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=110mm]{images/premature-convergence.png}
+    \caption{För tidig konvergens, 1502 generationer}
+    \label{fig:images/premature-convergence}
+  \end{center}
+\end{figure}
 
 % Vilka applikationsområden kan du se för evolutionära algoritmer?
 Applikationsområden för evolutionära algoritmer skulle kunna tänkas
@@ -454,6 +467,14 @@ algoritmer.
 Evolutionära algoritmer borde passa bra till just parameterskruvning
 eftersom rätt kombination av parametrarna ej behöver vara trivial och
 behöver testas fram och utvärderas.
+
+\subsection{Slutsats}
+Vi ser att \textit{Steady State}–selektionsmetoden hittar optimal
+lösning snabbast i flest testfall, se avsnitt \ref{sec:resultat}.  Med
+tanke på den minimala skillnaden och storleken på att
+standardavvikelsen kan vi inte dra några slutsatser om vilken metod
+som är snabbast. Fler test med variande parametrar skulle vara
+intressant att genomföra.
 
 \bibliographystyle{alpha}
 \bibliography{books}
