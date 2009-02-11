@@ -198,13 +198,11 @@ to-report roulette-selection
 end
 
 to-report steady-state-selection
-  ;; TODO: hardcoded 3, replace with Å var ?
-  report one-of (max-n-of (count old-generation / 3) old-generation [fitness])
+   report one-of (max-n-of (count old-generation / 3) old-generation [fitness])
 end
 
 to-report steady-state-survivor
-  ;; TODO: hardcoded 2/3, replace with Å var ?
-  report one-of (max-n-of (count old-generation *  (2 / 3)) old-generation [fitness])
+   report one-of (max-n-of (count old-generation *  (2 / 3)) old-generation [fitness])
 end
 
 ;; reports a list of choosen agents (James Baker, 1987)
