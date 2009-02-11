@@ -249,7 +249,8 @@ Selektionsmetoden \textit{Steady State} är implementerad så att enbart
 en tredjedel av de bästa individerna i varje generation har möjlighet
 till sexuell reproduktion. Två tredjedelar av individerna med bäst
 \textit{fitness} överlever utan förändring. En tredjedel av de sämst
-anpassade individerna dör ut.
+anpassade individerna dör ut. Procedurerna för selektion visas i
+kodsnutt nedan.
 
 \begin{kod}[H]
   \begin{scriptsize}
@@ -277,7 +278,12 @@ körts klart avslutas filen med medelvärdet och standardavvikelsen för
 den insamlade datan. Därefter startar en ny fil där data från nästa
 selektionsmetod sparas. När alla valda selektionsmetoder har kört
 klart avslutas skriptet. Sammanställning av resultaten kan ses under
-avsnitt \ref{sec:resultat}.
+avsnitt \ref{sec:resultat}. Vi testade samma parameterinställningar
+och gjorde olika antal körningar för att se hur många som krävdes för
+att få fram ett stabilt medelvärde med en liten
+standardavvikelse. Resultatet av detta vara att det räckte med tio
+körningar eftersom värdena blev mycket nära de som ficks efter hundra
+körningar. Jämför bilaga \ref{Tournament-100-70-0.5.dat} med \ref{}.
 
 \section{Resultat}\label{sec:resultat}
 % Tabell och sånt
@@ -380,10 +386,28 @@ Standardavvikelse & 278.6 & 220.6 & 287.3 \\
 \end{comment}
 
 \section{Reflektioner}\label{sec:reflektioner}
-
 Nedan avsnitt beskriver reflektioner som gjorts med avseende på
 frågorna från problemspecifikationen.
 
+\subsection{Mutation}
+Vid testen där mutationen varierades mellan 0.5–2 syns en markant
+skillnad i konvergeringstid när mutationsnivån var på 2, se tabell i
+figur \ref{tab:mut2}. Anledning till denna drastiska ökning var att
+populationen fastnade i en suboptimal lösning. Anledningen till den
+stora standardavvikelsen är att denna subotimala lösning låg mycket
+nära den optimala och slumpen inblandad vid mutation var avgörande för
+att lösningen skulle ändras från suboptimal till optimal, se figur
+\ref{fig:images/Roulette-Wheel-Sigma-100-70-2-20}.
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=110mm]{images/Roulette-Wheel-Sigma-100-70-2-20.png}
+    \caption{Mutation: 2.0}
+    \label{fig:images/Roulette-Wheel-Sigma-100-70-2-20}
+  \end{center}
+\end{figure}
+
+\subsection{Övriga reflektioner}
 % Vilken selektionsmetod passar bäst för problemet i modellen och
 % varför?
 Eftersom resultatet inte pekar på större skillnader i tidsåtgång är
@@ -398,18 +422,16 @@ eliminera risken av att de blir undansparkade av slumpen.
     
 % För vilken typ av problem passar respektive selektionsmetod?
 Med avseende på tidsåtgång förlorar Roulette Wheel som sällan hittade
-rätt lösning men var snabb inledningsvis (XXXX sant?) på att höja den
-genomsnittliga fittnessen (XXXX fittnessen??). Problemet var att
-utvecklingen av populationen avstannade (premature konvergence)
-eftersom variansen blev för liten och de med bättre fitness tappade
-övertaget. Denna selektionsmetod lämpar sig alltså bara inledningsvis
-i evolutionen eller om ett perfekt resultat inte är nödvändigt.
+rätt lösning. Problemet var att utvecklingen av populationen
+avstannade (premature konvergence) eftersom variansen blev för liten
+och de med bättre fitness tappade övertaget. Denna selektionsmetod
+lämpar sig alltså bara inledningsvis i evolutionen eller om ett
+perfekt resultat inte är nödvändigt.
 
 % Vilka applikationsområden kan du se för evolutionära algoritmer?
 Applikationsområden för evolutionära algoritmer skulle kunna tänkas
 vara problem där lösningsrymden är så pass stor att det är svår att
-tänka sig fram till en lösning. %??? Vad är skillnad på denna fråga
-                                %och nedan?
+tänka sig fram till en lösning.
 
 % För vilken typ av problem ser ni att evolutionära algoritmer kommer
 % till mest nytta?
