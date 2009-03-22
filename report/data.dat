@@ -1,0 +1,47 @@
+* Roulette Wheel Sigma-100-70-0.5.dat
+  Mean: 42.2
+  Standard deviation: 2.820559440174157
+* Steady State-100-70-0.5.dat
+  Mean: 41.4
+  Standard deviation: 3.5023801430836525
+* Tournament-100-70-0.5.dat
+  Mean: 44
+  Standard deviation: 5.656854249492381
+  
+  
+* Roulette Wheel Sigma-100-70-1.dat
+  Mean: 43
+  Standard deviation: 6.382541978339285
+* Steady State-100-70-1.dat
+  Mean: 42.45
+  Standard deviation: 4.773556546775493
+* Tournament-100-70-1.dat
+  Mean: 46.9
+  Standard deviation: 3.972272318009058
+* Roulette Wheel Sigma-100-70-2.dat
+  Mean: 277.35
+  Standard deviation: 278.64073737756974
+* Steady State-100-70-2.dat
+  Mean: 309.15
+  Standard deviation: 220.56512941938368
+* Tournament-100-70-2.dat
+  Mean: 462.95
+  Standard deviation: 287.3366767217051
+* Roulette Wheel Sigma-200-70-0.5.dat
+  Mean: 33.5
+  Standard deviation: 2.592724864350674
+* Steady State-200-70-0.5.dat
+  Mean: 33.2
+  Standard deviation: 2.2010098692292237
+* Tournament-200-70-0.5.dat
+  Mean: 35.2
+  Standard deviation: 2.6997942308422114
+* Roulette Wheel Sigma-200-70-0.5.dat
+  Mean: 33
+  Standard deviation: 1.9436506316151
+* Steady State-200-70-0.5.dat
+  Mean: 33.5
+  Standard deviation: 2.5495097567963922
+* Tournament-200-70-0.5.dat
+  Mean: 37.7
+  Standard deviation: 3.0568684048294332
