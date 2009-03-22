@@ -4,6 +4,8 @@ turtles-own [
   bits           ;; list of 0's and 1's
   fitness
   expected-value
+  expected-rate
+  nr-chosen
 ]
 
 globals [
@@ -63,7 +65,7 @@ end
 to calculate-expected-value
   let mean-fitness (mean [fitness] of turtles)
   
-  ifelse selection-method = "Roulette Wheel with Sigma Scaling" [
+  ifelse selection-method = "Roulette Wheel Sigma" [
     let std (standard-deviation [fitness] of turtles)
     ifelse (std = 0) [
       set expected-value 1.0
@@ -111,7 +113,7 @@ to create-next-generation
       set parent2 tournament-selection
     ] ;;else
     [ ifelse selection-method = "Roulette Wheel"
-          or selection-method = "Roulette Wheel with Sigma Scaling" [        
+          or selection-method = "Roulette Wheel Sigma" [        
         set parent1 roulette-selection
         set parent2 roulette-selection
       ] ;;else
@@ -140,7 +142,7 @@ to create-next-generation
       set survivor tournament-selection
     ] ;;else
     [ ifelse selection-method = "Roulette Wheel"
-          or selection-method = "Roulette Wheel with Sigma Scaling" [
+          or selection-method = "Roulette Wheel Sigma" [
         set survivor roulette-selection
       ] ;;else
       [ ;; Steady State selection survivor
@@ -160,7 +162,7 @@ to create-next-generation
     ; finally we update the fitness value for this solution
     calculate-fitness
     if selection-method = "Roulette Wheel"
-      or selection-method = "Roulette Wheel with Sigma Scaling" [
+      or selection-method = "Roulette Wheel Sigma" [
         calculate-expected-value
     ]
   ]  
@@ -176,7 +178,7 @@ to-report roulette-selection
   ; sum of expected-value of the old generation
   let T sum [expected-value] of old-generation
   ; random number [0,T)
-  let spin random T
+  let spin random-float T
   ;how word "spin: " spin
   let sum-expected 0
   let choosen ""
@@ -361,7 +363,7 @@ to test-script
   file-close
   set index 0
   
-  ;; ROULETTE WHEEL WITH SIGMA SCALING
+  ;; Roulette Wheel Sigma
   set selection-method "Roulette Wheel Sigma"
   set session-name (word selection-method "-" population-size "-" crossover-rate "-" mutation-rate)
   set-file word session-name ".dat"
@@ -409,30 +411,63 @@ to test-script
   show "script ended"
 end
 
-; *** NetLogo 4.0.4 Model Copyright Notice ***
-;
-; Copyright 2008 by Uri Wilensky.  All rights reserved.
-;
-; Permission to use, modify or redistribute this model is hereby granted,
-; provided that both of the following requirements are followed:
-; a) this copyright notice is included.
-; b) this model will not be redistributed for profit without permission
-;    from Uri Wilensky.
-; Contact Uri Wilensky for appropriate licenses for redistribution for
-; profit.
-;
-; To refer to this model in academic publications, please use:
-; Stonedahl, F. and Wilensky, U. (2008). NetLogo Simple Genetic Algorithm model.
-; http://ccl.northwestern.edu/netlogo/models/SimpleGeneticAlgorithm.
-; Center for Connected Learning and Computer-Based Modeling,
-; Northwestern University, Evanston, IL.
-;
-; In other publications, please use:
-; Copyright 2008 Uri Wilensky.  All rights reserved.
-; See http://ccl.northwestern.edu/netlogo/models/SimpleGeneticAlgorithm
-; for terms of use.
-;
-; *** End of NetLogo 4.0.4 Model Copyright Notice ***
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+to test-selection
+
+  ;; Parameters
+  set population-size 100
+  let testruns 1000000
+  set selection-method "Roulette Wheel Sigma"
+  let diff-list []
+  
+  show "*** test-selection ***"
+  show (word "population-size: " population-size)
+  show (word "selection-method: " selection-method)
+  show (word "testruns: " testruns)  
+  
+  setup
+  set old-generation turtles with [true]
+  let sum-of-exp (sum [expected-value] of old-generation)
+  
+  ask old-generation [ 
+    set expected-rate (expected-value / sum-of-exp)
+    set nr-chosen 0
+  ]
+  
+  repeat testruns
+  [
+    let parent1 ""
+    
+    ifelse selection-method = "Tournament" [
+      set parent1 tournament-selection
+    ] ;;else
+    [ ifelse selection-method = "Roulette Wheel"
+          or selection-method = "Roulette Wheel Sigma" [        
+        set parent1 roulette-selection
+      ] ;;else
+      [ ;; Steady State selection
+        set parent1 steady-state-selection
+      ]
+    ]
+    ask parent1 [ set nr-chosen (nr-chosen + 1) ]
+  ]
+  
+  show ""
+  show "Result:"
+  ask old-generation [
+    let diff ((nr-chosen / testruns) - expected-rate)
+    ;;show (word (nr-chosen / testruns) " " expected-rate ", diff:" diff)
+    set diff-list lput (abs diff) diff-list
+  ]
+  
+  show word "max: " max diff-list
+  show word "min: " min diff-list
+  show word "mean: " mean diff-list
+  show word "std-dev: " standard-deviation diff-list
+
+end
 @#$#@#$#@
 GRAPHICS-WINDOW
 20
@@ -616,7 +651,7 @@ CHOOSER
 selection-method
 selection-method
 "Tournament" "Roulette Wheel" "Roulette Wheel Sigma" "Steady State"
-3
+1
 
 BUTTON
 61
