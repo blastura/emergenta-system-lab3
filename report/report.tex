@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{parskip}
 \usepackage{comment}
+\usepackage{varioref}
 
 % SourceCode
 \usepackage{listings}
@@ -253,9 +254,10 @@ förhindra för tidig konvergens.
 Selektionsmetoden \textit{Steady State} är implementerad så att enbart
 en tredjedel av de bästa individerna i varje generation har möjlighet
 till sexuell reproduktion. Två tredjedelar av individerna med bäst
-\textit{fitness} överlever utan förändring. En tredjedel av de sämst
-anpassade individerna dör ut. Procedurerna för selektion visas i
-kodsnutt nedan.
+\textit{fitness} överlever utan förändring. På alla överlevande utförs
+mutation med sannlikhet bestämd av parametern
+\textit{mutation-rate}. En tredjedel av de sämst anpassade individerna
+dör ut. Procedurerna för selektion visas i kodsnutt nedan.
 
 \begin{kod}[H]
   \begin{scriptsize}
@@ -275,29 +277,44 @@ end
 De implementerade selektionsmetoderna utvärderas genom att jämföra
 antalet omgångar, hädan efter kallade ticks, det tar för metoden att
 hitta en fullständig lösning. För att generera testdata gjordes ett
-test-script som kan aktiveras från användargränssnittet. Test-scriptet
-sätter programmets parametrar och itererar varje selektionsmetod ett
-förinställt antal gånger. Antalet ticks som krävs för att hitta en
-lösning sparas i en textfil. Efter att en sorts selektionsmetod har
-körts klart avslutas filen med medelvärdet och standardavvikelsen för
-den insamlade datan. Därefter startar en ny fil där data från nästa
-selektionsmetod sparas. När alla valda selektionsmetoder har kört
-klart avslutas skriptet. Sammanställning av resultaten kan ses under
-avsnitt \ref{sec:resultat}. Vi testade samma parameterinställningar
-och gjorde olika antal körningar för att se hur många som krävdes för
-att få fram ett stabilt medelvärde med en liten
-standardavvikelse. Resultatet av detta vara att det räckte med tio
-körningar eftersom värdena blev mycket nära de som ficks efter hundra
-körningar. Jämför bilaga \ref{Tournament-100-70-0.5.dat} med
-\ref{Tournament100runsedited.dat}.
+\textit{test-script} som kan aktiveras från
+användargränssnittet. Test-scriptet sätter programmets parametrar och
+itererar varje selektionsmetod ett förinställt antal gånger. Antalet
+ticks som krävs för att hitta en lösning sparas i en textfil. Efter
+att en sorts selektionsmetod har körts klart avslutas filen med
+medelvärdet och standardavvikelsen för den insamlade datan. Därefter
+startar en ny fil där data från nästa selektionsmetod sparas. När alla
+valda selektionsmetoder har kört klart avslutas
+skriptet. Sammanställning av resultaten kan ses under avsnitt
+\ref{sec:resultat}. Vi testade samma parameterinställningar och gjorde
+olika antal körningar för att se hur många som krävdes för att få fram
+ett stabilt medelvärde med en liten standardavvikelse. Resultatet av
+detta vara att det räckte med tio körningar eftersom värdena blev
+mycket nära de som ficks efter hundra körningar. Jämför bilaga
+\ref{Tournament-100-70-0.5.dat} med
+\ref{Tournament100runsedited.dat}. För att testa de olika
+parametrarnas inverkan på resultatet varierades dessa mellan olika
+värden, se avsnitt \vref{sec:resultat} för diskussion kring valda
+värden.
 
 \section{Resultat}\label{sec:resultat}
-% Tabell och sånt
+% Tabell och sådant
 Följande tabeller redovisar antalet generationer det behövdes i medel
 för att hitta optimal lösning på givet problem med olika
 parameterinställningar och olika selektionsmetoder. För varje
 parameterinställning gjordes tio körningar och därefter räknades
 medelvärde och standardavvikelse ut.
+
+För att göra körningarna konsekventa valdes \textit{crossover-rate}
+till 70 \%, ett godtyckligt tal. För att testa populationsstorlekens
+inverkan testades körningar med 100 och 200 individer i varje
+population, också dessa tal är godtyckligt valda. Eftersom
+förhållandena mellan de olika selektionsmetoderna bibehölls vid båda
+värdena gjordes ej ytterligare variationer av
+populations\-storlek. Mutationens inverkan testades genom att
+körningar gjordes med \textit{mutation-rate} satt till 0.5 \%, 1 \%
+och 2 \%, tre godtyckliga tal. Vid 2 \% var standardavvikelsen så pass
+hög att vidare ökning av \textit{mutation-rate} kändes irrelevant.
 
 \begin{figure}[H]
 \begin{tabular}{lccc}
