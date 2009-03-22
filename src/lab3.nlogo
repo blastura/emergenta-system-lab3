@@ -414,12 +414,12 @@ end
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-to test-selection
+to test-selection-roulette
 
   ;; Parameters
-  set population-size 100
-  let testruns 1000000
-  set selection-method "Roulette Wheel Sigma"
+  set population-size 9
+  let testruns 100
+  set selection-method "Roulette Wheel"
   let diff-list []
   
   show "*** test-selection ***"
@@ -458,8 +458,65 @@ to test-selection
   show "Result:"
   ask old-generation [
     let diff ((nr-chosen / testruns) - expected-rate)
-    ;;show (word (nr-chosen / testruns) " " expected-rate ", diff:" diff)
+    show (word (nr-chosen / testruns) " " expected-rate ", diff:" diff)
     set diff-list lput (abs diff) diff-list
+  ]
+  
+  show word "max: " max diff-list
+  show word "min: " min diff-list
+  show word "mean: " mean diff-list
+  show word "std-dev: " standard-deviation diff-list
+
+end
+
+
+to test-selection-steady
+
+  ;; Parameters
+  set population-size 100
+  let testruns 1000000
+  set selection-method "Steady State"
+  let diff-list []
+  
+  show "*** test-selection ***"
+  show (word "population-size: " population-size)
+  show (word "selection-method: " selection-method)
+  show (word "testruns: " testruns)  
+  
+  setup
+  set old-generation turtles with [true]
+  let sum-of-exp (sum [expected-value] of old-generation)
+  
+  ask old-generation [ 
+    set nr-chosen 0
+  ]
+  
+  repeat testruns
+  [
+    let parent1 ""
+    
+    ifelse selection-method = "Tournament" [
+      set parent1 tournament-selection
+    ] ;;else
+    [ ifelse selection-method = "Roulette Wheel"
+          or selection-method = "Roulette Wheel Sigma" [        
+        set parent1 roulette-selection
+      ] ;;else
+      [ ;; Steady State selection
+        set parent1 steady-state-selection
+      ]
+    ]
+    ask parent1 [ set nr-chosen (nr-chosen + 1) ]
+  ]
+  
+  show ""
+  show "Result:"
+
+  ask (max-n-of (count old-generation / 3) old-generation [fitness])
+  [
+    ;;let diff ((nr-chosen / testruns) - expected-rate)
+    show (word (nr-chosen / testruns))
+    set diff-list lput (nr-chosen / testruns) diff-list
   ]
   
   show word "max: " max diff-list
@@ -651,7 +708,7 @@ CHOOSER
 selection-method
 selection-method
 "Tournament" "Roulette Wheel" "Roulette Wheel Sigma" "Steady State"
-1
+3
 
 BUTTON
 61
