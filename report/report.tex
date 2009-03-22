@@ -47,6 +47,7 @@
 
 \def\namn{Andreas Jakobsson}
 \def\mail{dit06ajs@cs.umu.se}
+
 \def\namnTva{Anton Johansson}
 \def\mailTva{dit06ajn@cs.umu.se}
 
@@ -292,10 +293,27 @@ ett stabilt medelvärde med en liten standardavvikelse. Resultatet av
 detta vara att det räckte med tio körningar eftersom värdena blev
 mycket nära de som ficks efter hundra körningar. Jämför bilaga
 \ref{Tournament-100-70-0.5.dat} med
-\ref{Tournament100runsedited.dat}. För att testa de olika
-parametrarnas inverkan på resultatet varierades dessa mellan olika
-värden, se avsnitt \vref{sec:resultat} för diskussion kring valda
-värden.
+\ref{Tournament100runsedited.dat}.
+
+För att testa de olika parametrarnas inverkan på resultatet varierades
+parametrarnas värden vid olika körningar, se avsnitt
+\vref{sec:resultat} för diskussion kring valda värden.
+
+\subsection{Test av implementering}
+För att validera att implementationerna av de olika
+selektionsmetoderna beter sig så som de är ämnade att bete sig
+implementerades ett trivialt test där selektionsmetoderna får välja ut
+individer ur en och samma population på hundra individer, en miljon
+gånger. Sedan jämfördes sannolikheten att varje individ blir utvald
+med det faktiska antalet urval delat med totala antalet urval.
+
+Sannolikheten att en individ väljes räknas ut baserat på de förväntade
+värden, \textit{expected-value}, som selektionsmetoderna använder sig
+av.
+
+Testkörningar visade en genomsnittlig avvikelse på 0,0137 \% enheter,
+med en standardavvikelse på 0,0408 \%. All testdata finns i bilaga
+\ref{app:validering}.
 
 \section{Resultat}\label{sec:resultat}
 % Tabell och sådant
@@ -569,8 +587,38 @@ denna laboration
   \verbatiminput{../src/data/Tournament100runsedited.dat}
 \end{footnotesize}
 
+\subsection{Validering av implementation}\label{app:validering}
+\begin{footnotesize}
+\begin{verbatim}
+*** test-selection ***
+population-size: 100
+selection-method: Roulette Wheel
+testruns: 1000000
+
+Result:
+max: 3.5542544651815874E-4
+min: 5.2016857314853004E-6
+mean: 9.383931366646565E-5
+std-dev: 6.59125926636495E-5
+
+
+*** test-selection ***
+population-size: 100
+selection-method: Roulette Wheel Sigma
+testruns: 1000000
+
+Result:
+max: 0.004016974289997032
+min: 1.4080969816115951E-6
+mean: 1.3708772461154103E-4
+std-dev: 4.0817664555691197E-4
+\end{verbatim}
+\end{footnotesize}
+
 \subsection{lab3.nlogo}\label{app:lab3.nlogo}
 \begin{footnotesize}
   \verbatiminput{../src/lab3.nlogo}
 \end{footnotesize}
+
+
 \end{document}
