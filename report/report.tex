@@ -255,8 +255,8 @@ förhindra för tidig konvergens.
 Selektionsmetoden \textit{Steady State} är implementerad så att enbart
 en tredjedel av de bästa individerna i varje generation har möjlighet
 till sexuell reproduktion. Två tredjedelar av individerna med bäst
-\textit{fitness} överlever utan förändring. På alla överlevande utförs
-mutation med sannlikhet bestämd av parametern
+\textit{fitness} överlever till nästa generation. På alla överlevande
+utförs mutation med sannlikhet bestämd av parametern
 \textit{mutation-rate}. En tredjedel av de sämst anpassade individerna
 dör ut. Procedurerna för selektion visas i kodsnutt nedan.
 
@@ -301,18 +301,28 @@ parametrarnas värden vid olika körningar, se avsnitt
 
 \subsection{Test av implementering}
 För att validera att implementationerna av de olika
-selektionsmetoderna beter sig så som de är ämnade att bete sig
-implementerades ett trivialt test där selektionsmetoderna får välja ut
+selektionsmetoderna beter sig så som de var ämnade att bete sig
+implementerades ett test där selektionsmetoderna fick välja ut
 individer ur en och samma population på hundra individer, en miljon
-gånger. Sedan jämfördes sannolikheten att varje individ blir utvald
-med det faktiska antalet urval delat med totala antalet urval.
+gånger. Sedan beräknades differensen mellan det faktiska urvalet och
+det teoretiskt förväntade urvalet.
 
-Sannolikheten att en individ väljes räknas ut baserat på de förväntade
-värden, \textit{expected-value}, som selektionsmetoderna använder sig
-av.
+Den teoretiska sannolikheten att en individ väljes räknades ut baserat
+på de förväntade värden, \textit{expected-value}, som
+selektionsmetoderna använder sig av.
 
-Testkörningar visade en genomsnittlig avvikelse på 0,0137 \% enheter,
-med en standardavvikelse på 0,0408 \%. All testdata finns i bilaga
+Testkörningar på \textit{Roulette Wheel Selection with Sigma Scaling}
+visade en genomsnittlig avvikelse på 0,0137 \% enheter, med en
+standardavvikelse på 0,0408 \%.
+
+För testkörning av \textit{Steady State}-selektion jämfördes antalet
+urval av den övre tredjedelen av populationen sorterat efter
+\textit{fitness}-värde. Vid en miljon urval på samma hundra individer
+visades att individerna selektionsmetoden teoretiskt bör ha valt,
+valdes lika många gånger (medelvärde: 2,9 \%, standardavvikelse: 0,44
+\%) och att resterande individer aldrig valdes.
+
+All testdata finns i bilaga
 \ref{app:validering}.
 
 \section{Resultat}\label{sec:resultat}
@@ -327,8 +337,8 @@ För att göra körningarna konsekventa valdes \textit{crossover-rate}
 till 70 \%, ett godtyckligt tal. För att testa populationsstorlekens
 inverkan testades körningar med 100 och 200 individer i varje
 population, också dessa tal är godtyckligt valda. Eftersom
-förhållandena mellan de olika selektionsmetoderna bibehölls vid båda
-värdena gjordes ej ytterligare variationer av
+förhållandena mellan resultaten av de olika selektionsmetoderna
+bibehölls vid båda värdena gjordes ej ytterligare variationer av
 populations\-storlek. Mutationens inverkan testades genom att
 körningar gjordes med \textit{mutation-rate} satt till 0.5 \%, 1 \%
 och 2 \%, tre godtyckliga tal. Vid 2 \% var standardavvikelsen så pass
@@ -485,7 +495,11 @@ detta kan se ut.
 % Vilka applikationsområden kan du se för evolutionära algoritmer?
 Applikationsområden för evolutionära algoritmer skulle kunna tänkas
 vara problem där lösningsrymden är så pass stor att det är svår att
-tänka sig fram till en lösning.
+tänka sig fram till en lösning. Exempel på detta skulle kunna vara att
+försöka utveckla ett rörelsemönster för robotar som ska kunna ta sig
+fram i svårtillgänglig miljö (exempelvis på Mars). Uträkning av
+komplexa rörelsemönster analytiskt är extremt komplext och därför
+skulle evolutionära algoritmer passa väl för ändamålet.
 
 % För vilken typ av problem ser ni att evolutionära algoritmer kommer
 % till mest nytta?
@@ -612,6 +626,50 @@ max: 0.004016974289997032
 min: 1.4080969816115951E-6
 mean: 1.3708772461154103E-4
 std-dev: 4.0817664555691197E-4
+
+"*** test-selection ***"
+population-size: 100
+selection-method: Steady State
+testruns: 1000000
+
+Result:
+turtle 77): "0.030222"
+(turtle 10): "0.029995"
+(turtle 76): "0.030234"
+(turtle 38): "0.030294"
+(turtle 78): "0.030186"
+(turtle 40): "0.030554"
+(turtle 86): "0.030341"
+(turtle 49): "0.03045"
+(turtle 32): "0.030223"
+(turtle 89): "0.030506"
+(turtle 27): "0.030536"
+(turtle 59): "0.030057"
+(turtle 84): "0.03021"
+(turtle 9): "0.030399"
+(turtle 29): "0.004977"
+(turtle 62): "0.030329"
+(turtle 67): "0.030347"
+(turtle 52): "0.030386"
+(turtle 20): "0.030331"
+(turtle 69): "0.030499"
+(turtle 26): "0.030233"
+(turtle 90): "0.030306"
+(turtle 16): "0.030187"
+(turtle 19): "0.030412"
+(turtle 42): "0.03027"
+(turtle 23): "0.030492"
+(turtle 47): "0.030216"
+(turtle 53): "0.03038"
+(turtle 22): "0.030328"
+(turtle 25): "0.030413"
+(turtle 93): "0.030184"
+(turtle 75): "0.030045"
+(turtle 31): "0.030336"
+observer: "max: 0.030554"
+observer: "min: 0.004977"
+observer: "mean: 0.029541757575757575"
+observer: "std-dev: 0.004411962389560221"
 \end{verbatim}
 \end{footnotesize}
 
